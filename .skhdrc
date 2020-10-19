@@ -1,0 +1,90 @@
+# Restart Yabai
+shift + ctrl + alt - l : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+
+# bsp or float (default: bsp)
+lctrl + lshift + lalt - q: yabai -m config layout bsp
+lctrl + lshift + lalt - a: yabai -m config layout float
+
+## Stick
+lctrl + lalt - m: yabai -m window --toggle sticky
+
+# focus window
+shift + alt - j : yabai -m window --focus west
+shift + alt - k : yabai -m window --focus south
+shift + alt - i : yabai -m window --focus north
+shift + alt - l : yabai -m window --focus east
+
+# swap window
+# shift + alt - a : yabai -m window --swap west
+#shift + alt - s : yabai -m window --swap south
+#shift + alt - w : yabai -m window --swap north
+#shift + alt - d : yabai -m window --swap east
+
+# move window
+ctrl + shift + alt - j : yabai -m window --warp west
+ctrl + shift + alt - k : yabai -m window --warp south
+ctrl + shift + alt - i : yabai -m window --warp north
+ctrl + shift + alt - l : yabai -m window --warp east
+
+ctrl + shift + alt - g : ~/workspace/wwf/TheNewWordsWithFriends/wf-react/scripts/scanForErrors.sh
+
+# Floating window commands
+
+## Full Screen
+#shift + alt - i : yabai -m window --grid 1:1:0:0:1:1
+alt + shift - u : yabai -m window --toggle float;\
+                      yabai -m window --grid 1:1:0:0:1:1
+## Left Half
+shift + alt  - j : yabai -m window --grid 1:2:0:0:1:1
+## Right Half 
+shift + alt - l : yabai -m window --grid 1:2:1:0:1:1
+
+## Left 2/3 Third
+lctrl + shift - j : yabai -m window --grid 1:3:0:0:2:1
+## Right 1/3 
+lctrl + shift - l : yabai -m window --grid 1:2:1:0:1:1
+
+# float / unfloat window and center on screen
+alt + shift - y : yabai -m window --toggle float;\
+                      yabai -m window --grid 4:4:1:1:2:2
+# Send to other monitor
+ctrl + lalt - 0x2B : yabai -m window --display 1; yabai -m display --focus 1
+ctrl + lalt - 0x2F : yabai -m window --display 2; yabai -m display --focus 2
+
+# Switch Monitor
+ctrl + lalt - z : yabai -m window --display 1; yabai -m display --focus 1
+ctrl + lalt - x : yabai -m window --display 2; yabai -m display --focus 2
+
+# Spaces
+# Focus previous space by mission-control index
+#shift + alt - u: yabai -m space --focus prev || yabai -m space --focus last
+
+# Focus next space by mission-control index
+#shift + alt - o: yabai -m space --focus next || yabai -m space --focus first
+
+# Create space on the active display
+#shift + alt - y: yabai -m space --create
+
+# Delete focused space and focus first space on display
+#shift + alt - h: yabai -m space --destroy
+
+## Send between windows
+lalt + lshift - o: yabai -m window --display prev; yabai -m display --focus prev
+lalt + lshift - p: yabai -m window --display next; yabai -m display --focus next
+
+# Resizing Window Size
+## Increase
+lalt - z : yabai -m window --resize left:-20:0
+lalt - x : yabai -m window --resize bottom:0:20
+lalt - c : yabai -m window --resize top:0:-20
+lalt - v : yabai -m window --resize right:20:0
+## Decrease
+# lctrl + lalt - z : yabai -m window --resize left:20:0
+# lctrl + lalt - z : yabai -m window --resize left:20:0
+# lctrl + lalt - x : yabai -m window --resize bottom:0:-20
+# lctrl + lalt - c : yabai -m window --resize top:0:20
+# lctrl + lalt - v : yabai -m window --resize right:-20:0
+
+# toggle window split type
+alt - e : yabai -m window --toggle split
+
