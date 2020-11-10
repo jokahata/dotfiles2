@@ -1,14 +1,16 @@
 #~/.bashrc
-bind '"\e[5C": forward-word'
-bind '"\e[5D": backward-word'
-bind '"\e[1;5C": forward-word'
-bind '"\e[1;5D": backward-word'
 
 # https://spin.atomicobject.com/2016/05/28/log-bash-history/
 export PROMPT_COMMAND='if [ "$(id -u)" -ne 0 ]; then echo "$(date "+%Y-%m-%d.%H:%M:%S") $(pwd) $(history 1)" >> ~/.logs/bash-history-$(date "+%Y-%m-%d").log; fi'
 
+alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+cfg config --local status.showUntrackedFiles no
+
 # Initialize rbenv
-eval "$(rbenv init -)"
+if command -v rbenv &> /dev/null
+then
+	eval "$(rbenv init -)"
+fi
 
 
 kill-crashplan() {
@@ -248,7 +250,9 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:~/Library
 # Setup your Android SDK path in ANDROID_HOME variable
 export ANDROID_HOME=~/Library/Android/sdk/
 
-source ./.bashrc_sec
+if [[ -f ./.bashrc_sec ]]; then
+	source ./.bashrc_sec
+fi
 exit_session() {
 	. "$HOME/.bash_logout"
 }

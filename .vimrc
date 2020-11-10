@@ -28,7 +28,7 @@ set number relativenumber
 syntax enable
 set termguicolors
 set background=dark
-color adaryn
+" color adaryn
 
 :highlight ExtraWhitespace ctermbg=red guibg=red
 :match ExtraWhitespace /\s\+$/
