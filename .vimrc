@@ -75,3 +75,7 @@ nnoremap <Leader>T :Tags<CR>
 nnoremap <Leader>f :Rg<CR>
 nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>source :source ~/.vimrc<CR>
+
+set expandtab
+set tabstop=2
+set shiftwidth=2

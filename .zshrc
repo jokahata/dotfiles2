@@ -99,3 +99,41 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+
+source ~/.bashrc
+ZSH_THEME="passion"
+#>>>>>>>>>>>>>>>>>>> CUSTOM RUBY 2.7.0 INSTALLATION - START <<<<<<<<<<<<<<<<<<<
+export RBENV_ROOT=/Users/jokahata/workspace/repos/.ruby2.7.0
+export GEM_HOME=${RBENV_ROOT}/local-gems
+export GEM_PATH=${GEM_HOME}
+export GEM_BIN_DIR=${GEM_HOME}/bin
+export PATH=${GEM_BIN_DIR}:$PATH
+
+# $(rbenv init -)
+export PATH="/Users/jokahata/workspace/repos/.ruby2.7.0/shims:${PATH}"
+export RBENV_SHELL=bash
+source '/usr/local/Cellar/rbenv/1.1.2/libexec/../completions/rbenv.bash'
+command rbenv rehash 2>/dev/null
+rbenv() {
+  local command
+  command="${1:-}"
+  if [ "$#" -gt 0 ]; then
+    shift
+  fi
+
+  case "$command" in
+  rehash|shell)
+    eval "$(rbenv "sh-$command" "$@")";;
+  *)
+    command rbenv "$command" "$@";;
+  esac
+}
+
+
+export BUNDLER_VERSION=2.1.2
+export RBENV_SHELL=zsh
+echo $(ruby -v)
+
+
+#>>>>>>>>>>>>>>>>>>> CUSTOM RUBY 2.7.0 INSTALLATION - END <<<<<<<<<<<<<<<<<<<

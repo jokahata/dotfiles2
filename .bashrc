@@ -19,12 +19,16 @@ kill-crashplan() {
     for f in $files; do [ -e "$f" ] && sudo launchctl unload "$f"; done
 }
 
+function toprint {
+  enscript -2rG --line-numbers -p "$1".ps --highlight=bash --color=1 -c "$1"
+}
+
 function parse_git_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
 function curb {
-    git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
+  echo $(git branch --show-current)
 }
 alias vim='mvim -v'
 
@@ -53,7 +57,7 @@ alias sbash="source ~/.bashrc"
 alias adb="~/Library/Android/sdk/platform-tools/adb"
 alias unity-device-log="adb logcat -s Unity ActivityManager PackageManager dalvikvm DEBUG > logcat.txt"
 alias adb_rpt_install="~/Documents/Scripts/adb_repeat_install.sh"
-alias g="git number"
+alias g="git"
 alias gs="git status"
 alias gl="g log --oneline --pretty"
 alias gl="g log --oneline"
@@ -71,7 +75,7 @@ alias gfup="g fetch upstream"
 alias gfo="g fetch origin"
 supfetch () {
 	if [[ -d wf-react ]]; then
-		cd wf-react && git lfs fetch --all && g fetch upstream && cd ..;
+		cd wf-react && git lfs fetch --recent && g fetch upstream && cd ..;
 	fi
 	g fetch upstream;
 }
@@ -250,8 +254,8 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:~/Library
 # Setup your Android SDK path in ANDROID_HOME variable
 export ANDROID_HOME=~/Library/Android/sdk/
 
-if [[ -f ./.bashrc_sec ]]; then
-	source ./.bashrc_sec
+if [[ -f ~/.bashrc_sec ]]; then
+	source ~/.bashrc_sec
 fi
 exit_session() {
 	. "$HOME/.bash_logout"
