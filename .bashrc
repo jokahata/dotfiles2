@@ -3,8 +3,16 @@
 # https://spin.atomicobject.com/2016/05/28/log-bash-history/
 export PROMPT_COMMAND='if [ "$(id -u)" -ne 0 ]; then echo "$(date "+%Y-%m-%d.%H:%M:%S") $(pwd) $(history 1)" >> ~/.logs/bash-history-$(date "+%Y-%m-%d").log; fi'
 
+##########
+# CFG
+##########
+# cfg is an alias to update dotfiles in my $HOME directory without turning the entire directory into a
+# git repo. $HOME/.cfg contains the actual git repo where updates are saved
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 cfg config --local status.showUntrackedFiles no
+alias cfgs='cfg status'
+alias cfga='cfg add'
+alias cfgcm='cfg commit -m'
 
 # Initialize rbenv
 if command -v rbenv &> /dev/null
@@ -41,7 +49,7 @@ export TERM=xterm-256color
 PS1="\[\e[32m\](\$(parse_git_branch)) \[\e[34m\]\h:\W \$ \[\e[m\]"
 export PS1
 
-#Start slack in dev mode
+# Start slack in dev mode, allowing right-click and "inspect element"
 alias slackdev="export SLACK_DEVELOPER_MENU=true; /usr/bin/nohup open -a /Applications/Slack.app"
 
 
