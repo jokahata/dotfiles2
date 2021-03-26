@@ -4,19 +4,19 @@
 
 ### Strategy adopted from https://www.atlassian.com/git/tutorials/dotfiles
 
-# TODO: Write down setup steps on new computer
+### Setup on new computer
+Run this command in your terminal
 ```
-git init --bare $HOME/.cfg
+if [[ ! -d "$HOME/.cfg" ]]; then
+  git clone --bare git@github.com:jokahata/dotfiles2.git $HOME/.cfg
+fi
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-config config --local status.showUntrackedFiles no
-echo "alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> $HOME/.bashrc
-```
-
-# TODO: Add a script to setup automatically
-
-Installation
-```
-alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-git clone --bare git@github.com:jokahata/dotfiles2.git $HOME/.cfg
-dotfilessetup.sh
+cfg checkout || {
+  # Backup any conflicting files if necessary
+  mkdir -p .cfg-backup && \
+  cfg checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | \
+  xargs -I{} mv {} .cfg-backup/{}
+  cfg checkout
+}
+source ~/.bashrc
 ```
