@@ -13,6 +13,7 @@ cfg config --local status.showUntrackedFiles no
 alias cfgs='cfg status'
 alias cfga='cfg add'
 alias cfgcm='cfg commit -m'
+alias cfgp='cfg push'
 
 # Initialize rbenv
 if command -v rbenv &> /dev/null
