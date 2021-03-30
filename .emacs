@@ -31,7 +31,13 @@
 ;; Set up visible bell
 (setq visible-bell t)
 
-(set-face-attribute 'default nil :font "Fira Code")
+;; Choose which visual line mode to run with,
+;; This first one makes it wrap around like in sublime or notepad, but kill line will only reach the end
+;; word-wrap will actually make it so kill line will kill the entire line 
+;; (global-visual-line-mode t)
+(setq-default word-wrap t)
+
+(set-face-attribute 'default nil :font "Fira Code" :height 130)
 
 ;; Add line numbers
 (column-number-mode)
