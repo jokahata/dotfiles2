@@ -101,7 +101,7 @@
 
 (use-package general
   :config
-  (general-create definer jo/leader-keys
+  (general-create-definer jo/leader-keys
 		  :keymaps '(normal insert visual emacs)
 		  :global-prefix "C-SPC")
   (jo/leader-keys
@@ -148,7 +148,8 @@
 
 (use-package ivy-rich
   :init
-  (ivy-rich-mode 1))
+  (ivy-rich-mode 1)
+  :after counsel)
 
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
