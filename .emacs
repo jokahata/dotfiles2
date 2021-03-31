@@ -6,18 +6,6 @@
  
 (setq package-enable-at-startup nil)
 (package-initialize)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages '(evil-collection doom-themes evil)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -25,6 +13,7 @@
 
 (eval-when-compile
   (require 'use-package))
+(setq use-package-always-ensure t)
 
 ;; Set up Theme
 ;; Remove default UI elements
@@ -35,7 +24,7 @@
 (tooltip-mode -1)
 (set-fringe-mode 11)
 (menu-bar-mode -1)
-
+(show-paren-mode 1)
 ;; Set up visible bell
 (setq visible-bell t)
 
@@ -59,7 +48,38 @@
   :after evil
   :config
   (evil-collection-init))
+=======
+;; Choose which visual line mode to run with,
+;; This first one makes it wrap around like in sublime or notepad, but kill line will only reach the end
+;; word-wrap will actually make it so kill line will kill the entire line 
+;; (global-visual-line-mode t)
+(setq-default word-wrap t)
 
+(set-face-attribute 'default nil :font "Fira Code" :height 130)
+
+;; Add line numbers
+(column-number-mode)
+(global-display-line-numbers-mode t)
+
+;; Disable line numbers certain modes
+(dolist (mode '(term-mode-hook
+		eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+>>>>>>> ba709f038be6615e4fcda7beeb3684c70619f3cd
+
+  ;; Init is before it's loaded
+  ;; config runs after the package loads
+  ;; see use-package
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+    :config
+    (setq which-key-idle-delay 0.3))
+
+  
 (use-package doom-themes
   :config
   ;; Global settings (defaults)
@@ -80,6 +100,7 @@
   (doom-themes-org-config))
 
 
+<<<<<<< HEAD
 (use-package general
   :config
   (general-create definer jo/leader-keys
@@ -137,3 +158,16 @@
          ("C-x C-f" . counsel-find-file)
          :map minibuffer-local-map
          ("C-r" . 'counsel-minibuffer-history)))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(which-key rainbow-delimiters doom-themes evil))
+ '(show-paren-mode t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
