@@ -11,15 +11,13 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(evil)))
+ '(package-selected-packages '(evil-collection doom-themes evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-;;(require 'evil)
-;;(evil-mode t)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -41,8 +39,26 @@
 ;; Set up visible bell
 (setq visible-bell t)
 
-(set-face-attribute 'default nil :font "Fira Code" :height 200)
+(set-face-attribute 'default nil :font "Fira Code" :height 130)
 
+(use-package evil
+  :init
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t) ;; Let Evil take over C u for  scrolling
+  (setq evil-want-C-i-jump nil)
+  :config
+  (evil-mode t)
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join) ;; Basically backspace
+
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+)
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
 
 (use-package doom-themes
   :config
@@ -62,3 +78,62 @@
   
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
+
+
+(use-package general
+  :config
+  (general-create definer jo/leader-keys
+		  :keymaps '(normal insert visual emacs)
+		  :global-prefix "C-SPC")
+  (jo/leader-keys
+   "t" '(:ignore t :which-key "toggles")))
+
+;; For making fast transient key bindings
+(use-package hydra)
+(defhydra hydra-text-scale (:timeout 2)
+  "scale text"
+  ("j" text-scale-increase "in")
+  ("k" text-scale-decrease "out")
+  ("f" nil "finished" :exit t)
+
+  (jo/leader-keys
+   "ts" '(hydra-text-scale/body :which-key "scale text")))
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+;; Show tooltip of keys
+(use-package which-key
+  :init (which-key-mode)
+  :diminish (which-key-mode)
+  :config
+  (setq which-key-idle-delay 1))
+
+ (use-package ivy
+  :diminish
+  :bind (("C-s" . swiper)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-alt-done)
+         ("C-l" . ivy-alt-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1))
+
+(use-package ivy-rich
+  :init
+  (ivy-rich-mode 1))
+
+(use-package counsel
+  :bind (("M-x" . counsel-M-x)
+         ("C-x b" . counsel-ibuffer)
+         ("C-x C-f" . counsel-find-file)
+         :map minibuffer-local-map
+         ("C-r" . 'counsel-minibuffer-history)))
