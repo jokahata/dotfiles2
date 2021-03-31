@@ -48,7 +48,7 @@
   :after evil
   :config
   (evil-collection-init))
-=======
+
 ;; Choose which visual line mode to run with,
 ;; This first one makes it wrap around like in sublime or notepad, but kill line will only reach the end
 ;; word-wrap will actually make it so kill line will kill the entire line 
@@ -68,7 +68,6 @@
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
->>>>>>> ba709f038be6615e4fcda7beeb3684c70619f3cd
 
   ;; Init is before it's loaded
   ;; config runs after the package loads
@@ -100,7 +99,6 @@
   (doom-themes-org-config))
 
 
-<<<<<<< HEAD
 (use-package general
   :config
   (general-create definer jo/leader-keys
