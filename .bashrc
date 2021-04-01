@@ -53,9 +53,13 @@ export PS1
 # Start slack in dev mode, allowing right-click and "inspect element"
 alias slackdev="export SLACK_DEVELOPER_MENU=true; /usr/bin/nohup open -a /Applications/Slack.app"
 
-
+############################
+# Meta alias's
+############################
 alias svim="sudo vim"
 alias vib="vim ~/.bashrc"
+# bashrc_sec is for files that should be kept separate
+alias vibsec="vim ~/.bashrc_sec"
 alias sib="source ~/.profile"
 alias vyab="vim ~/.yabairc"
 alias syab="brew services restart yabai"
@@ -63,6 +67,8 @@ alias vskhd="vim ~/.skhdrc"
 alias sskhd="skhd -r"
 
 alias sbash="source ~/.bashrc"
+
+# Utils and external 
 alias adb="~/Library/Android/sdk/platform-tools/adb"
 alias unity-device-log="adb logcat -s Unity ActivityManager PackageManager dalvikvm DEBUG > logcat.txt"
 alias adb_rpt_install="~/Documents/Scripts/adb_repeat_install.sh"
