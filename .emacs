@@ -3,6 +3,7 @@
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(add-to-list 'load-path "~/.joconf/")
  
 (setq package-enable-at-startup nil)
 (package-initialize)
@@ -197,30 +198,83 @@
   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
 
-(use-package org
-  :hook (org-mode . jo/org-mode-setup)
-  :config
-  (setq org-ellipsis " ▾")
-  (jo/org-font-setup))
-
 
 (defun jo/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
   (visual-line-mode 1)
+  )
+
+(use-package org
+  :hook (org-mode . jo/org-mode-setup)
+  :config
+  (setq org-ellipsis " ▾")
+
+ (setq org-agenda-start-with-log-mode t)
+ (setq org-log-done 'time)
+
+ (setq org-agenda-files
+       '("~/Dropbox/org/workclean.org"
+	 "~/Dropbox/org/birthdays.org"
+	 "~/Dropbox/org/habits.org"))
+
+  (require 'org-habit)
+  (add-to-list 'org-modules 'org-habit)
+  (setq org-habit-graph-column 60) 
+
+  (setq org-todo-keywords
+	'((sequence "TODO(t)" "FRONT(f)" "WAIT(w)" "|" "DONE(d!)")))
+
+   ;; Do these
+   (setq org-refile-targets
+    '(("archive.org" :maxlevel . 1)
+      ("workclean.org" :maxlevel . 1)))
+ 
+    ;; Save Org buffers after refiling!
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
 
   (jo/org-font-setup))
 
 (use-package org-bullets
+  :after org
   :hook (org-mode . org-bullets-mode)
   :custom
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+
+;; Browsing
+(require 'osx-browse)
+(osx-browse-mode 1)
+
+(defun osx-browse-url-work (url &optional new-window browser focus)
+  "Open in work which is probably Chrome, refer: osx-browse-url"
+  (interactive (osx-browse-interactor-form))
+  (callf or browser "com.google.Chrome")
+  (osx-browse-url url new-window browser focus))
+
+;; TODO Check if this works 
+(defun osx-browse-url-personal (url &optional new-window browser focus)
+  "Open in Brave)"
+  (interactive (osx-browse-interactive-form))
+  (callf or browser "com.brave.Brave")
+  (osx-browse-url url new-window browser focus))
+
+(setq
+      ;; See: http://ergoemacs.org/emacs/emacs_set_default_browser.html
+      browse-url-browser-function
+      '(("docs\\.google\\.com"  . osx-browse-url-work)
+	("youtube.com"        . osx-browse-url-personal)
+	("."                    . eww-browse-url)))
+
+(use-package ace-link)
+(ace-link-setup-default)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(counsel which-key rainbow-delimiters doom-themes evil))
+ '(package-selected-packages
+   '(ace-link counsel which-key rainbow-delimiters doom-themes evil))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
