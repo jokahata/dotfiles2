@@ -296,8 +296,8 @@
   ("C-c p" . projectile-command-map)
   :init
   ;; NOTE: Set this to the folder where you keep your Git repos!
-  (when (file-directory-p "~/Projects/Code")
-    (setq projectile-project-search-path '("~/Projects/Code")))
+  (when (file-directory-p "~/workspace/")
+    (setq projectile-project-search-path '("~/workspace/")))
   (setq projectile-switch-project-action #'projectile-dired))
 
 (use-package counsel-projectile
@@ -305,10 +305,7 @@
   :config (counsel-projectile-mode))
 
 (use-package magit
-  :commands magit-status
-  :custom
-  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
-
+  :commands magit-status)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
