@@ -79,6 +79,8 @@
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode))
 
+(setq byte-compile-warnings '(cl-functions))
+
   ;; Init is before it's loaded
   ;; config runs after the package loads
   ;; see use-package
@@ -231,7 +233,25 @@
       ("workclean.org" :maxlevel . 1)))
  
     ;; Save Org buffers after refiling!
+   ;; TODO Check if I can have variables for different files
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
+  (setq org-capture-templates
+    `(("t" "Tasks / Projects")
+      ("tt" "Task" entry (file+olp "~/Dropbox/org/workclean.org" "Inbox")
+           "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+
+      ("j" "Journal Entries")
+      ("jj" "Journal" entry
+           (file+olp+datetree "~/Dropbox/org/journal.org")
+           "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
+           ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
+           :clock-in :clock-resume
+           :empty-lines 1)
+
+      ))
+
+  (define-key global-map (kbd "C-c j")
+    (lambda () (interactive) (org-capture nil "jj")))
 
   (jo/org-font-setup))
 
@@ -268,13 +288,35 @@
 (use-package ace-link)
 (ace-link-setup-default)
 
+(use-package projectile
+  :diminish projectile-mode
+  :config (projectile-mode)
+  :custom ((projectile-completion-system 'ivy))
+  :bind-keymap
+  ("C-c p" . projectile-command-map)
+  :init
+  ;; NOTE: Set this to the folder where you keep your Git repos!
+  (when (file-directory-p "~/Projects/Code")
+    (setq projectile-project-search-path '("~/Projects/Code")))
+  (setq projectile-switch-project-action #'projectile-dired))
+
+(use-package counsel-projectile
+  :after projectile
+  :config (counsel-projectile-mode))
+
+(use-package magit
+  :commands magit-status
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(ace-link counsel which-key rainbow-delimiters doom-themes evil))
+   '(magit ace-link counsel which-key rainbow-delimiters doom-themes evil))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
