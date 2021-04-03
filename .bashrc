@@ -1,7 +1,7 @@
 #~/.bashrc
 
 # https://spin.atomicobject.com/2016/05/28/log-bash-history/
-export PROMPT_COMMAND='if [ "$(id -u)" -ne 0 ]; then echo "$(date "+%Y-%m-%d.%H:%M:%S") $(pwd) $(history 1)" >> ~/.logs/bash-history-$(date "+%Y-%m-%d").log; fi'
+#export PROMPT_COMMAND='if [ "$(id -u)" -ne 0 ]; then echo "$(date "+%Y-%m-%d.%H:%M:%S") $(pwd) $(history 1)" >> ~/.logs/bash-history-$(date "+%Y-%m-%d").log; fi'
 
 ##########
 # CFG
@@ -256,11 +256,6 @@ function iterm2_print_user_vars() {
   #export PROMPT_COMMAND='history -a'
 #  export HISTIGNORE='&:bg:fg:clear:ls:pwd:history:exit:make*:* --help:'
 #  export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
-  histgrep () 
-  {
-  	grep -r "$@" ~/.history
-  	history | grep "$@"
-  }
 
 # https://android.jlelse.eu/how-i-reduced-my-android-build-times-by-89-4242e51ce946gs
 # Have the adb accessible, by including it in the PATH
