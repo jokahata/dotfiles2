@@ -261,7 +261,7 @@
   (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
 
 ;; Browsing
-(require 'osx-browse)
+(use-package osx-browse)
 (osx-browse-mode 1)
 
 (defun osx-browse-url-work (url &optional new-window browser focus)
