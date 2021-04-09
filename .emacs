@@ -39,6 +39,11 @@
       (lambda ()
 	(shell-command-to-string "pbpaste")))
 
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(setq recentf-max-saved-items 25)
+;; Use bind-key over global-set-key. bind-key defaults to using kbd macro and global
+(bind-key "C-x C-r" #'recentf-open-files)
 
 (use-package evil
   :init
@@ -156,6 +161,9 @@
          ("C-k" . ivy-previous-line)
          ("C-d" . ivy-reverse-i-search-kill))
   :config
+  (setq ivy-re-builders-alist
+	'((read-file-name-internal . ivy--regex-fuzzy)
+	  (t . ivy--regex-plus)))
   (ivy-mode 1))
 
 (use-package ivy-rich
@@ -166,9 +174,12 @@
 (use-package counsel
   :bind (("M-x" . counsel-M-x)
          ("C-x b" . counsel-ibuffer)
+         ("C-x C-b" . counsel-switch-buffer)
          ("C-x C-f" . counsel-find-file)
          :map minibuffer-local-map
          ("C-r" . 'counsel-minibuffer-history)))
+
+(global-set-key (kbd "C-c n") 'counsel-fzf)
 
 (defun jo/org-font-setup ()
   ;; Replace list hyphen with dot
@@ -305,7 +316,12 @@
   :config (counsel-projectile-mode))
 
 (use-package magit
-  :commands magit-status)
+  :commands magit-status
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+(use-package flycheck)
+(add-hook 'sh-mode-hook 'flycheck-mode)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -313,7 +329,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(magit ace-link counsel which-key rainbow-delimiters doom-themes evil))
+   '(flycheck magit ace-link counsel which-key rainbow-delimiters doom-themes evil))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
