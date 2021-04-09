@@ -115,7 +115,7 @@
   :config
   (general-create-definer jo/leader-keys
 		  :keymaps '(normal insert visual emacs)
-		  :global-prefix "C-SPC")
+		  :global-prefix "C-,")
   (jo/leader-keys
    "t" '(:ignore t :which-key "toggles")))
 
@@ -247,11 +247,10 @@
            ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
            :clock-in :clock-resume
            :empty-lines 1)
-
       ))
 
   (define-key global-map (kbd "C-c j")
-    (lambda () (interactive) (org-capture nil "jj")))
+    (lambda () (interactive) (org-capture)))
 
   (jo/org-font-setup))
 
@@ -307,13 +306,20 @@
 (use-package magit
   :commands magit-status)
 
+(use-package lsp-mode
+  :commands (lsp lsp-deffered)
+  :init
+  (setq lsp-keymap-prefix "C-c l") ;;
+  :confg
+  (lsp-enable-which-key-integration t))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(magit ace-link counsel which-key rainbow-delimiters doom-themes evil))
+   '(lsp-mode magit ace-link counsel which-key rainbow-delimiters doom-themes evil))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
