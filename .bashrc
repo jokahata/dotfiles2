@@ -36,8 +36,13 @@ function parse_git_branch {
     git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
-function curb {
-  echo $(git branch --show-current)
+# Push the current git branch into clipboard
+pcurb() {
+   echo "$(curb)" | pbcopy
+}
+
+curb() {
+  git branch --show-current
 }
 alias vim='mvim -v'
 
